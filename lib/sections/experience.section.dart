@@ -1,19 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:my_portfolio/config/config.dart';
 
-class ExperienceSection extends StatelessWidget {
+class ExperienceSection extends StatefulWidget {
   const ExperienceSection({super.key});
 
   @override
+  State<ExperienceSection> createState() => _ExperienceSectionState();
+}
+
+class _ExperienceSectionState extends State<ExperienceSection>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late List<Animation<double>> _fadeAnimations;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    );
+
+    _fadeAnimations = List.generate(
+      Config.experiences.length,
+      (index) => Tween<double>(begin: 0, end: 1).animate(
+        CurvedAnimation(
+          parent: _controller,
+          curve: Interval(index / Config.experiences.length,
+              (index + 1) / Config.experiences.length,
+              curve: Curves.easeInOut),
+        ),
+      ),
+    );
+
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-      physics: const BouncingScrollPhysics(),
-      separatorBuilder: (_, __) => const SizedBox(height: 20),
-      itemCount: Config.experiences.length,
-      itemBuilder: (context, index) {
-        final experience = Config.experiences[index];
-        return _ExperienceCard(experience: experience);
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return ListView.separated(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+          physics: const BouncingScrollPhysics(),
+          separatorBuilder: (_, __) => const SizedBox(height: 20),
+          itemCount: Config.experiences.length,
+          itemBuilder: (context, index) {
+            final experience = Config.experiences[index];
+            return Opacity(
+              opacity: _fadeAnimations[index].value,
+              child: Transform.translate(
+                offset: Offset(0, 50 * (1 - _fadeAnimations[index].value)),
+                child: _ExperienceCard(experience: experience),
+              ),
+            );
+          },
+        );
       },
     );
   }
@@ -36,7 +85,7 @@ class _ExperienceCard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
           side: BorderSide(
-            color: theme.dividerColor.withValues(alpha: 0.1),
+            color: theme.dividerColor.withOpacity(0.1),
             width: 1,
           ),
         ),
@@ -58,7 +107,6 @@ class _ExperienceCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header Section
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -102,8 +150,6 @@ class _ExperienceCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 16),
-
-                // Tech Stack Chips
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
@@ -118,7 +164,6 @@ class _ExperienceCard extends StatelessWidget {
                       .toList(),
                 ),
                 const SizedBox(height: 20),
-
                 ...experience.achievements.map((achievement) => Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4),
                       child: Row(

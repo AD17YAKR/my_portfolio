@@ -1,65 +1,118 @@
 import 'package:flutter/material.dart';
 import 'package:my_portfolio/config/config.dart';
 
-class ProjectsSection extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:my_portfolio/config/config.dart';
+
+class ProjectsSection extends StatefulWidget {
   const ProjectsSection({super.key});
+
+  @override
+  State<ProjectsSection> createState() => _ProjectsSectionState();
+}
+
+class _ProjectsSectionState extends State<ProjectsSection>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late List<Animation<double>> _fadeAnimations;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    );
+
+    _fadeAnimations = List.generate(
+      Config.projects.length,
+      (index) => Tween<double>(begin: 0, end: 1).animate(
+        CurvedAnimation(
+          parent: _controller,
+          curve: Interval(index / Config.projects.length,
+              (index + 1) / Config.projects.length,
+              curve: Curves.easeInOut),
+        ),
+      ),
+    );
+
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 600;
     final theme = Theme.of(context);
 
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 60),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Colors.blueGrey[900]!,
-            Colors.blueGrey[800]!,
-          ],
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: isMobile ? 20 : 100),
-            child: SelectableText(
-              "Featured Projects",
-              style: theme.textTheme.displaySmall?.copyWith(
-                color: Colors.tealAccent,
-                fontWeight: FontWeight.w800,
-                letterSpacing: 1.2,
-              ),
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return Container(
+          padding: const EdgeInsets.symmetric(vertical: 60),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.blueGrey[900]!,
+                Colors.blueGrey[800]!,
+              ],
             ),
           ),
-          const SizedBox(height: 40),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: isMobile ? 20 : 100),
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                return GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: isMobile ? 1 : 2,
-                    crossAxisSpacing: 30,
-                    mainAxisSpacing: 30,
-                    childAspectRatio: isMobile ? 0.9 : 1.2,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: isMobile ? 20 : 100),
+                child: SelectableText(
+                  "Featured Projects",
+                  style: theme.textTheme.displaySmall?.copyWith(
+                    color: Colors.tealAccent,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 1.2,
                   ),
-                  itemCount: Config.projects.length,
-                  itemBuilder: (context, index) {
-                    final project = Config.projects[index];
-                    return _ProjectCard(project: project);
+                ),
+              ),
+              const SizedBox(height: 40),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: isMobile ? 20 : 100),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: isMobile ? 1 : 2,
+                        crossAxisSpacing: 30,
+                        mainAxisSpacing: 30,
+                        childAspectRatio: isMobile ? 0.9 : 1.2,
+                      ),
+                      itemCount: Config.projects.length,
+                      itemBuilder: (context, index) {
+                        final project = Config.projects[index];
+                        return Opacity(
+                          opacity: _fadeAnimations[index].value,
+                          child: Transform.translate(
+                            offset: Offset(
+                                0, 50 * (1 - _fadeAnimations[index].value)),
+                            child: _ProjectCard(project: project),
+                          ),
+                        );
+                      },
+                    );
                   },
-                );
-              },
-            ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
