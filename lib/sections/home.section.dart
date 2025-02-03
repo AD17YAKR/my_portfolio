@@ -291,7 +291,7 @@ class _SocialLink extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.transparent,
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Colors.tealAccent.withOpacity(0.3)),
+            border: Border.all(color: Colors.tealAccent.withValues(alpha: 0.3)),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,

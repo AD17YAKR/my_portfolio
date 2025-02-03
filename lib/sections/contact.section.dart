@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_portfolio/config/config.dart';
 
 class ContactSection extends StatefulWidget {
   const ContactSection({super.key});
@@ -82,7 +81,7 @@ class _ContactSectionState extends State<ContactSection>
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                           side: BorderSide(
-                            color: Colors.tealAccent.withOpacity(0.3),
+                            color: Colors.tealAccent.withValues(alpha: 0.3),
                             width: 1,
                           ),
                         ),
@@ -173,7 +172,8 @@ class _ContactSectionState extends State<ContactSection>
           prefixIcon: Icon(icon, color: Colors.tealAccent),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.tealAccent.withOpacity(0.3)),
+            borderSide:
+                BorderSide(color: Colors.tealAccent.withValues(alpha: 0.3)),
           ),
         ),
         validator: validator,

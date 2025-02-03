@@ -85,7 +85,7 @@ class _ExperienceCard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
           side: BorderSide(
-            color: theme.dividerColor.withOpacity(0.1),
+            color: theme.dividerColor.withValues(alpha: 0.1),
             width: 1,
           ),
         ),
@@ -156,7 +156,7 @@ class _ExperienceCard extends StatelessWidget {
                   children: experience.techStack
                       .map((tech) => Chip(
                             label: Text(tech),
-                            backgroundColor: Colors.teal.withOpacity(0.2),
+                            backgroundColor: Colors.teal.withValues(alpha: 0.2),
                             labelStyle: theme.textTheme.bodySmall?.copyWith(
                               color: Colors.tealAccent,
                             ),

@@ -120,7 +120,7 @@ class _AboutSectionState extends State<AboutSection>
                             child: CircleAvatar(
                               radius: isMobile ? 80 : 120,
                               backgroundColor:
-                                  Colors.tealAccent.withOpacity(0.1),
+                                  Colors.tealAccent.withValues(alpha: 0.1),
                               child: ClipOval(
                                 child: Image.asset(
                                   'assets/profile.jpeg',
@@ -180,12 +180,12 @@ class _AboutSectionState extends State<AboutSection>
                                                 horizontal: 16, vertical: 8),
                                             decoration: BoxDecoration(
                                               color: Colors.tealAccent
-                                                  .withOpacity(0.1),
+                                                  .withValues(alpha: 0.1),
                                               borderRadius:
                                                   BorderRadius.circular(20),
                                               border: Border.all(
                                                 color: Colors.tealAccent
-                                                    .withOpacity(0.3),
+                                                    .withValues(alpha: 0.3),
                                               ),
                                             ),
                                             child: SelectableText(
@@ -220,10 +220,10 @@ class _AboutSectionState extends State<AboutSection>
                       duration: const Duration(milliseconds: 300),
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
-                        color: Colors.tealAccent.withOpacity(0.1),
+                        color: Colors.tealAccent.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(15),
                         border: Border.all(
-                          color: Colors.tealAccent.withOpacity(0.3),
+                          color: Colors.tealAccent.withValues(alpha: 0.3),
                         ),
                       ),
                       child: Row(

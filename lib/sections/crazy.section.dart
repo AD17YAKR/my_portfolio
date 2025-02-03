@@ -58,7 +58,6 @@ class _CrazySectionState extends ConsumerState<CrazySection>
   @override
   Widget build(BuildContext context) {
     final isBioExpanded = ref.watch(bioExpansionProvider);
-    final skills = ref.watch(skillsProvider);
 
     return ScaleTransition(
       scale: _scaleAnimation,
@@ -127,7 +126,7 @@ class _CrazySectionState extends ConsumerState<CrazySection>
                           .map((entry) {
                         return Chip(
                           label: Text(entry.key),
-                          backgroundColor: entry.value.withOpacity(0.2),
+                          backgroundColor: entry.value.withValues(alpha: 0.2),
                           labelStyle: TextStyle(
                               color: entry.value, fontWeight: FontWeight.w600),
                         );

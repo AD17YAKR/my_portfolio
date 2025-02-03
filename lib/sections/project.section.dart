@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_portfolio/config/config.dart';
 
-import 'package:flutter/material.dart';
-import 'package:my_portfolio/config/config.dart';
-
 class ProjectsSection extends StatefulWidget {
   const ProjectsSection({super.key});
 
@@ -146,7 +143,7 @@ class __ProjectCardState extends State<_ProjectCard> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
             side: BorderSide(
-              color: Colors.tealAccent.withOpacity(0.3),
+              color: Colors.tealAccent.withValues(alpha: 0.3),
               width: 1,
             ),
           ),
@@ -192,7 +189,8 @@ class __ProjectCardState extends State<_ProjectCard> {
                     children: widget.project.techStack
                         .map((tech) => Chip(
                               label: Text(tech),
-                              backgroundColor: Colors.teal.withOpacity(0.2),
+                              backgroundColor:
+                                  Colors.teal.withValues(alpha: 0.2),
                               labelStyle: theme.textTheme.bodySmall?.copyWith(
                                 color: Colors.tealAccent,
                               ),
@@ -305,7 +303,7 @@ class __ProjectCardState extends State<_ProjectCard> {
                 children: widget.project.techStack
                     .map((tech) => Chip(
                           label: Text(tech),
-                          backgroundColor: Colors.teal.withOpacity(0.2),
+                          backgroundColor: Colors.teal.withValues(alpha: 0.2),
                           labelStyle: Theme.of(context)
                               .textTheme
                               .bodySmall

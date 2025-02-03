@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_portfolio/providers/current_index_provider.dart';
 import 'package:my_portfolio/sections/crazy.section.dart';
 import 'package:my_portfolio/sections/experience.section.dart';
 import 'package:my_portfolio/sections/home.section.dart';
@@ -79,7 +78,6 @@ class PortfolioShell extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentIndex = ref.watch(currentIndexProvider);
     final isMobile = MediaQuery.of(context).size.width <= 600;
 
     return Scaffold(
